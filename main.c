@@ -6,7 +6,7 @@
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 01:38:54 by ootaketai         #+#    #+#             */
-/*   Updated: 2025/07/21 21:46:54 by totake           ###   ########.fr       */
+/*   Updated: 2025/07/21 22:01:15 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	error_phrase(void)
 	exit(EXIT_FAILURE);
 }
 
-int	check_av(char *av)
+int	perse_args(char *av)
 {
 	if (!ft_strcmp(av, "mandelbrot") || !ft_strcmp(av, "julia1")
 		|| !ft_strcmp(av, "julia2") || !ft_strcmp(av, "julia3")
@@ -59,14 +59,14 @@ int	check_av(char *av)
 		return (1);
 }
 
-int	main(int ac, char **av)
+int	main(int argc, char **argv)
 {
 	t_p	p;
 
-	if (ac != 2 || check_av(av[1]))
+	if (argc != 2 || perse_args(argv[1]))
 		error_phrase();
 	init(&p);
-	chose_fractol(&p, av[1]);
+	chose_fractol(&p, argv[1]);
 	mlx_hook(p.win, 2, 1L << 0, key_hook, &p);
 	mlx_hook(p.win, 4, 1L << 0, mouse_hook, &p);
 	mlx_hook(p.win, 17, 0, close_hook, &p);
