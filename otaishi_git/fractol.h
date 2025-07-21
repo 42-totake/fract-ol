@@ -3,24 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootaketaishi <marvin@42.fr>                +#+  +:+       +#+        */
+/*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 02:00:28 by ootaketai         #+#    #+#             */
-/*   Updated: 2022/04/05 04:40:36 by ootaketai        ###   ########.fr       */
+/*   Updated: 2025/07/21 20:27:31 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-# include <stdio.h> //printf
-# include <unistd.h> //write
 # include <math.h> // pow
-# include <mlx.h> //mlx...
+// # include <mlx.h>    //mlx...
+# include "mlx.h"
+# include <stdio.h>  //printf
 # include <stdlib.h> //exit EXIT_SUCCESS..
+# include <unistd.h> //write
 
-# define WIDTH 800//8004:3
-# define HEIGHT 600//600
+# define WIDTH 800  // 8004:3
+# define HEIGHT 600 // 600
 # define C_KEY 8
 # define LEFT_KEY 123
 # define RIGHT_KEY 124
@@ -39,15 +40,17 @@
 # define JULIA3 4
 # define BURNINGSHIP 5
 
-typedef struct s_img {
+typedef struct s_img
+{
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-}				t_img;
+}			t_img;
 
-typedef struct s_p{
+typedef struct s_p
+{
 	void	*mlx;
 	void	*win;
 	double	move_x;
@@ -60,44 +63,44 @@ typedef struct s_p{
 	int		fractol;
 	int		c;
 	t_img	img;
-}				t_p;
+}			t_p;
 
-//main
-void	draw_fractol(t_p *p);
-void	chose_fractol(t_p *p, char *av);
-int		check_av(char *av);
-void	error_phrase(void);
+// main
+void		draw_fractol(t_p *p);
+void		chose_fractol(t_p *p, char *av);
+int			check_av(char *av);
+void		error_phrase(void);
 
-//utils.c
-int		ft_strcmp(char *s1, char *s2);
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
-void	pixel_put(t_p *p, double x, double y, int n);
-void	init(t_p *p);
+// utils.c
+int			ft_strcmp(char *s1, char *s2);
+void		my_mlx_pixel_put(t_img *img, int x, int y, int color);
+void		pixel_put(t_p *p, double x, double y, int n);
+void		init(t_p *p);
 
-//hook.c
-int		mouse_hook(int keycode, int x, int y, t_p *p);
-int		key_hook(int keycode, t_p *p);
-int		close_hook(t_p *p);
-void	julia_change(int keycode, t_p *p);
+// hook.c
+int			mouse_hook(int keycode, int x, int y, t_p *p);
+int			key_hook(int keycode, t_p *p);
+int			close_hook(t_p *p);
+void		julia_change(int keycode, t_p *p);
 
-//coler
-int		color(t_p *p);
-int		rainbow(t_p *p);
-int		black(t_p *p);
-int		white(t_p *p);
+// coler
+int			color(t_p *p);
+int			rainbow(t_p *p);
+int			black(t_p *p);
+int			white(t_p *p);
 
-//mandelbrot.c
-int		mandelbrot(t_p *p, double cx, double cy);
-void	draw_mandelbrot(t_p *p);
+// mandelbrot.c
+int			mandelbrot(t_p *p, double cx, double cy);
+void		draw_mandelbrot(t_p *p);
 
-//julia.c
-void	chose_julia(t_p *p, char *av);
-int		julia(t_p *p, double nx, double ny);
-void	draw_julia(t_p *p);
+// julia.c
+void		chose_julia(t_p *p, char *av);
+int			julia(t_p *p, double nx, double ny);
+void		draw_julia(t_p *p);
 
-//burningship
-double	ft_abs(double num);
-int		burningship(t_p *p, double cx, double cy);
-void	draw_burningship(t_p *p);
+// burningship
+double		ft_abs(double num);
+int			burningship(t_p *p, double cx, double cy);
+void		draw_burningship(t_p *p);
 
 #endif
