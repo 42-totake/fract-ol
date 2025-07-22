@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootaketaishi <marvin@42.fr>                +#+  +:+       +#+        */
+/*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 01:43:53 by ootaketai         #+#    #+#             */
-/*   Updated: 2022/04/05 06:07:37 by ootaketai        ###   ########.fr       */
+/*   Updated: 2025/07/22 13:43:48 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void	pixel_put(t_p *p, double x, double y, int n)
+void	pixel_put(t_fractol *f, double x, double y, int n)
 {
 	if (n == -1)
 		my_mlx_pixel_put(&(p->img), x, y, color(p));
@@ -38,7 +38,7 @@ void	pixel_put(t_p *p, double x, double y, int n)
 		my_mlx_pixel_put(&(p->img), x, y, color(p));
 }
 
-void	init(t_p *p)
+void	init(t_fractol *f)
 {
 	p->mlx = mlx_init();
 	if (!p->mlx)
@@ -49,8 +49,8 @@ void	init(t_p *p)
 	p->img.img = mlx_new_image(p->mlx, WIDTH, HEIGHT);
 	if (!p->img.img)
 		exit(EXIT_FAILURE);
-	p->img.addr = mlx_get_data_addr(p->img.img,
-			&p->img.bits_per_pixel, &p->img.line_length, &p->img.endian);
+	p->img.addr = mlx_get_data_addr(p->img.img, &p->img.bits_per_pixel,
+			&p->img.line_length, &p->img.endian);
 	p->move_x = 0.0;
 	p->move_y = 0.0;
 	p->max_n = 100;

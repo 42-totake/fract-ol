@@ -1,9 +1,9 @@
 NAME    = fractol
 
 CC      = cc
-CFLAGS  = -Wall -Wextra -Werror -Imlx
+CFLAGS  = -Wall -Wextra -Werror -O2 -Imlx
 
-SRC     = main.c burningship.c  hook.c color.c julia.c mandelbrot.c  utils.c
+SRC     = main.c error.c double.c burningship.c  hook.c color.c julia.c mandelbrot.c  utils.c
 OBJ     = $(SRC:.c=.o)
 
 MLX_DIR = ../minilibx-linux

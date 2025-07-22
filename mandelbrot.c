@@ -3,58 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   mandelbrot.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootaketaishi <marvin@42.fr>                +#+  +:+       +#+        */
+/*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/31 01:54:38 by ootaketai         #+#    #+#             */
-/*   Updated: 2022/03/31 01:54:40 by ootaketai        ###   ########.fr       */
+/*   Created: 2025/07/22 17:28:35 by totake            #+#    #+#             */
+/*   Updated: 2025/07/22 17:45:52 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int	mandelbrot(t_p *p, double cx, double cy)
+int	mandelbrot(t_fractol *f, double cx, double cy)
 {
-	double	nx;
-	double	ny;
-	double	ox;
-	double	oy;
-
-	nx = 0.0;
-	ny = 0.0;
-	p->n = 0;
-	while (p->n <= p->max_n)
-	{
-		ox = nx;
-		oy = ny;
-		nx = ox * ox - oy * oy + cx;
-		ny = 2.0 * ox * oy + cy;
-		if ((nx * nx + ny * ny) > 4.0)
-			return (p->n);
-		(p->n)++;
-	}
-	p->n = -1;
-	return (p->n);
-}
-
-void	draw_mandelbrot(t_p *p)
-{
-	double	cx;
-	double	cy;
 	double	x;
 	double	y;
+	double	xtemp;
+	int		i;
 
+	x = 0.0;
+	y = 0.0;
+	i = 0;
+	while (x * x + y * y <= 4.0 && i < f->max_iter)
+	{
+		xtemp = x * x - y * y + cx;
+		y = 2.0 * x * y + cy;
+		x = xtemp;
+		i++;
+	}
+	return (i);
+}
+
+void	draw_mandelbrot(t_fractol *f)
+{
+	int		x;
+	int		y;
+	double	cx;
+	double	cy;
+	int		iter;
+
+	f->max_iter = (int)(100 + 20 * log2(f->zoom));
 	y = 0;
 	while (y < HEIGHT)
 	{
 		x = 0;
 		while (x < WIDTH)
 		{
-			cx = 1.5 * (x - WIDTH / 2) / (WIDTH * 0.5 * p->zoom) - p->move_x;
-			cy = (y - HEIGHT / 2) / (HEIGHT * 0.5 * p->zoom) - p->move_y;
-			pixel_put(p, x, y, mandelbrot(p, cx, cy));
+			cx = 1.5 * (x - WIDTH / 2) / (WIDTH * 0.5 * f->zoom) + f->offset_x;
+			cy = (y - HEIGHT / 2) / (HEIGHT * 0.5 * f->zoom) + f->offset_y;
+			iter = mandelbrot(f, cx, cy);
+			my_mlx_pixel_put(f, x, y, get_color(iter, f));
 			x++;
 		}
 		y++;
 	}
-	mlx_put_image_to_window(p->mlx, p->win, p->img.img, 0, 0);
+	mlx_put_image_to_window(f->mlx, f->win, f->img, 0, 0);
 }

@@ -5,71 +5,57 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/31 01:38:54 by ootaketai         #+#    #+#             */
-/*   Updated: 2025/07/21 22:01:15 by totake           ###   ########.fr       */
+/*   Created: 2025/07/22 17:24:34 by totake            #+#    #+#             */
+/*   Updated: 2025/07/22 17:24:36 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void	draw_fractol(t_p *p)
+void	draw_fractol(t_fractol *f)
 {
-	if (p->fractol == MANDELBROT)
-		draw_mandelbrot(p);
-	else if (JULIA1 <= p->fractol && p->fractol <= JULIA3)
-		draw_julia(p);
-	else if (p->fractol == BURNINGSHIP)
-		draw_burningship(p);
+	if (f->fractol_type == MANDELBROT)
+		draw_mandelbrot(f);
+	// else if (f->fractol_type == JULIA)
+	// 	draw_julia(f);
+	// else if (f->fractol_type == BURNINGSHIP)
+	// 	draw_burningship(f);
 }
 
-void	chose_fractol(t_p *p, char *av)
+int	perse_args(int argc, char **argv)
 {
-	if (!ft_strcmp("mandelbrot", av))
-	{
-		p->fractol = MANDELBROT;
-		p->move_x = 0.5;
-		p->move_y = 0.0;
-	}
-	else if (!ft_strcmp("burningship", av))
-		p->fractol = BURNINGSHIP;
+	int	fractol_type;
+
+	fractol_type = 0;
+	if (argc != 2 && argc != 4)
+		handle_errors("Invalid number of arguments.");
+	else if (argc == 2 && ft_strcmp(argv[1], "mandelbrot") == 0)
+		fractol_type = MANDELBROT;
+	else if (argc == 2 && ft_strcmp(argv[1], "burning_ship") == 0)
+		fractol_type = BURNINGSHIP;
+	else if (argc == 4 && ft_strcmp(argv[1], "julia") == 0 && is_double(argv[2])
+		&& is_double(argv[3]))
+		fractol_type = JULIA;
 	else
-		chose_julia(p, av);
-	draw_fractol(p);
-}
-
-void	error_phrase(void)
-{
-	write(1, "Usage: ./fractol <Fractals>\n", 28);
-	write(1, "Available <Fractals>:\n", 23);
-	write(1, "---> mandelbrot\n", 17);
-	write(1, "---> julia1\n", 13);
-	write(1, "---> julia2\n", 13);
-	write(1, "---> julia3\n", 13);
-	write(1, "---> burningship\n", 18);
-	exit(EXIT_FAILURE);
-}
-
-int	perse_args(char *av)
-{
-	if (!ft_strcmp(av, "mandelbrot") || !ft_strcmp(av, "julia1")
-		|| !ft_strcmp(av, "julia2") || !ft_strcmp(av, "julia3")
-		|| !ft_strcmp(av, "burningship"))
-		return (0);
-	else
-		return (1);
+		handle_errors("Invalid fractal name rule.");
+	return (fractol_type);
 }
 
 int	main(int argc, char **argv)
 {
-	t_p	p;
+	t_fractol	f;
 
-	if (argc != 2 || perse_args(argv[1]))
-		error_phrase();
-	init(&p);
-	chose_fractol(&p, argv[1]);
-	mlx_hook(p.win, 2, 1L << 0, key_hook, &p);
-	mlx_hook(p.win, 4, 1L << 0, mouse_hook, &p);
-	mlx_hook(p.win, 17, 0, close_hook, &p);
-	mlx_loop(p.mlx);
+	f.fractol_type = perse_args(argc, argv);
+	if (f.fractol_type == JULIA)
+	{
+		f.julia_c.re = ft_atod(argv[2]);
+		f.julia_c.im = ft_atod(argv[3]);
+	}
+	init_fractol(&f);
+	mlx_key_hook(f.win, handle_key, &f);
+	mlx_mouse_hook(f.win, handle_mouse, &f);
+	mlx_hook(f.win, 17, 0, handle_close, &f);
+	draw_fractol(&f);
+	mlx_loop(f.mlx);
 	return (0);
 }

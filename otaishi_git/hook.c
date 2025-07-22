@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   hook.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootaketaishi <marvin@42.fr>                +#+  +:+       +#+        */
+/*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 01:49:05 by ootaketai         #+#    #+#             */
-/*   Updated: 2022/04/05 04:42:44 by ootaketai        ###   ########.fr       */
+/*   Updated: 2025/07/22 13:44:00 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int	mouse_hook(int keycode, int x, int y, t_p *p)
+int	mouse_hook(int keycode, int x, int y, t_fractol *f)
 {
 	(void)x;
 	(void)y;
@@ -32,12 +32,12 @@ int	mouse_hook(int keycode, int x, int y, t_p *p)
 	return (0);
 }
 
-int	key_hook(int keycode, t_p *p)
+int	key_hook(int keycode, t_fractol *f)
 {
 	if (keycode == ESC_KEY)
 	{
 		mlx_destroy_window(p->mlx, p->win);
-		//system("leaks fractol");
+		// system("leaks fractol");
 		exit(EXIT_SUCCESS);
 	}
 	else if (keycode == LEFT_KEY)
@@ -55,15 +55,15 @@ int	key_hook(int keycode, t_p *p)
 	return (0);
 }
 
-int	close_hook(t_p *p)
+int	close_hook(t_fractol *f)
 {
 	mlx_destroy_window(p->mlx, p->win);
-	//system("leaks fractol");
+	// system("leaks fractol");
 	exit(EXIT_SUCCESS);
 	return (0);
 }
 
-void	julia_change(int keycode, t_p *p)
+void	julia_change(int keycode, t_fractol *f)
 {
 	if (keycode == H_KEY)
 		p->cx += 0.01;

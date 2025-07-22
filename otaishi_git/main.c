@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootaketaishi <marvin@42.fr>                +#+  +:+       +#+        */
+/*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 01:38:54 by ootaketai         #+#    #+#             */
-/*   Updated: 2022/04/05 04:40:17 by ootaketai        ###   ########.fr       */
+/*   Updated: 2025/07/22 13:43:43 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void	draw_fractol(t_p *p)
+void	draw_fractol(t_fractol *f)
 {
 	if (p->fractol == MANDELBROT)
 		draw_mandelbrot(p);
@@ -22,7 +22,7 @@ void	draw_fractol(t_p *p)
 		draw_burningship(p);
 }
 
-void	chose_fractol(t_p *p, char *av)
+void	chose_fractol(t_fractol *f, char *av)
 {
 	if (!ft_strcmp("mandelbrot", av))
 	{

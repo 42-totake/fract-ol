@@ -3,74 +3,104 @@
 /*                                                        :::      ::::::::   */
 /*   hook.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootaketaishi <marvin@42.fr>                +#+  +:+       +#+        */
+/*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/31 01:49:05 by ootaketai         #+#    #+#             */
-/*   Updated: 2022/04/05 04:42:44 by ootaketai        ###   ########.fr       */
+/*   Created: 2025/07/22 16:27:21 by totake            #+#    #+#             */
+/*   Updated: 2025/07/22 17:27:25 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int	mouse_hook(int keycode, int x, int y, t_p *p)
+void	shift_colors(t_fractol *f)
 {
-	(void)x;
-	(void)y;
-	if (keycode == MOUSE_UP)
+	f->color_shift = (f->color_shift + 3) % 24;
+}
+
+int	handle_key(int keycode, t_fractol *f)
+{
+	if (keycode == ESC)
 	{
-		p->zoom *= 1.1;
-		p->max_n += 5;
+		free_window(f);
+		exit(0);
 	}
-	else if (keycode == MOUSE_DOWN)
+	else if (keycode == LEFT)
+		f->offset_x -= 1.0 / f->zoom;
+	else if (keycode == RIGHT)
+		f->offset_x += 1.0 / f->zoom;
+	else if (keycode == UP)
+		f->offset_y -= 1.0 / f->zoom;
+	else if (keycode == DOWN)
+		f->offset_y += 1.0 / f->zoom;
+	else if (keycode == KEY_C)
+		shift_colors(f);
+	else if (keycode == KEY_R)
 	{
-		p->zoom *= 0.9;
-		p->max_n -= 5;
-		if (p->max_n <= 100)
-			p->max_n = 100;
+		f->zoom = 1.0;
+		f->offset_x = -0.5;
+		f->offset_y = 0.0;
+		f->color_shift = 0;
 	}
-	draw_fractol(p);
+	draw_fractol(f);
 	return (0);
 }
 
-int	key_hook(int keycode, t_p *p)
+// int	mouse_hook(int keycode, int x, int y, t_fractol *f)
+// {
+// 	(void)x;
+// 	(void)y;
+// 	if (keycode == MOUSE_UP)
+// 	{
+// 		p->zoom *= 1.1;
+// 		p->max_n += 5;
+// 	}
+// 	else if (keycode == MOUSE_DOWN)
+// 	{
+// 		p->zoom *= 0.9;
+// 		p->max_n -= 5;
+// 		if (p->max_n <= 100)
+// 			p->max_n = 100;
+// 	}
+// 	draw_fractol(p);
+// 	return (0);
+// }
+
+// int	handle_mouse(int button, int x, int y, t_fractol *f)
+// {
+// }
+
+int	handle_mouse(int button, int x, int y, t_fractol *f)
 {
-	if (keycode == ESC_KEY)
+	double	zoom_factor;
+	double	mouse_re;
+	double	mouse_im;
+
+	zoom_factor = 1.5;
+	if (button == ZOOM_IN || button == ZOOM_OUT)
 	{
-		mlx_destroy_window(p->mlx, p->win);
-		//system("leaks fractol");
-		exit(EXIT_SUCCESS);
+		mouse_re = 1.5 * (x - WIDTH / 2) / (WIDTH * 0.5 * f->zoom)
+			+ f->offset_x;
+		mouse_im = (y - HEIGHT / 2) / (HEIGHT * 0.5 * f->zoom) + f->offset_y;
+		if (button == ZOOM_IN)
+		{
+			f->offset_x = mouse_re + (f->offset_x - mouse_re) / zoom_factor;
+			f->offset_y = mouse_im + (f->offset_y - mouse_im) / zoom_factor;
+			f->zoom *= zoom_factor;
+		}
+		else if (button == ZOOM_OUT)
+		{
+			f->offset_x = mouse_re + (f->offset_x - mouse_re) * zoom_factor;
+			f->offset_y = mouse_im + (f->offset_y - mouse_im) * zoom_factor;
+			f->zoom /= zoom_factor;
+		}
+		draw_fractol(f);
 	}
-	else if (keycode == LEFT_KEY)
-		p->move_x += 0.1 / p->zoom;
-	else if (keycode == RIGHT_KEY)
-		p->move_x -= 0.1 / p->zoom;
-	else if (keycode == UP_KEY)
-		p->move_y += 0.1 / p->zoom;
-	else if (keycode == DOWN_KEY)
-		p->move_y -= 0.1 / p->zoom;
-	else if (keycode == C_KEY)
-		p->c++;
-	julia_change(keycode, p);
-	draw_fractol(p);
 	return (0);
 }
 
-int	close_hook(t_p *p)
+int	handle_close(t_fractol *f)
 {
-	mlx_destroy_window(p->mlx, p->win);
-	//system("leaks fractol");
-	exit(EXIT_SUCCESS);
+	free_window(f);
+	exit(0);
 	return (0);
-}
-
-void	julia_change(int keycode, t_p *p)
-{
-	if (keycode == H_KEY)
-		p->cx += 0.01;
-	else if (keycode == J_KEY)
-		p->cy -= 0.01;
-	else if (keycode == K_KEY)
-		p->cy += 0.01;
-	else if (keycode == L_KEY)
-		p->cx -= 0.01;
 }

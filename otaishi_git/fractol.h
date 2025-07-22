@@ -6,7 +6,7 @@
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 02:00:28 by ootaketai         #+#    #+#             */
-/*   Updated: 2025/07/21 20:27:31 by totake           ###   ########.fr       */
+/*   Updated: 2025/07/22 13:43:27 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,41 +66,41 @@ typedef struct s_p
 }			t_p;
 
 // main
-void		draw_fractol(t_p *p);
-void		chose_fractol(t_p *p, char *av);
+void		draw_fractol(t_fractol *f);
+void		chose_fractol(t_fractol *f, char *av);
 int			check_av(char *av);
 void		error_phrase(void);
 
 // utils.c
 int			ft_strcmp(char *s1, char *s2);
 void		my_mlx_pixel_put(t_img *img, int x, int y, int color);
-void		pixel_put(t_p *p, double x, double y, int n);
-void		init(t_p *p);
+void		pixel_put(t_fractol *f, double x, double y, int n);
+void		init(t_fractol *f);
 
 // hook.c
-int			mouse_hook(int keycode, int x, int y, t_p *p);
-int			key_hook(int keycode, t_p *p);
-int			close_hook(t_p *p);
-void		julia_change(int keycode, t_p *p);
+int			mouse_hook(int keycode, int x, int y, t_fractol *f);
+int			key_hook(int keycode, t_fractol *f);
+int			close_hook(t_fractol *f);
+void		julia_change(int keycode, t_fractol *f);
 
 // coler
-int			color(t_p *p);
-int			rainbow(t_p *p);
-int			black(t_p *p);
-int			white(t_p *p);
+int			color(t_fractol *f);
+int			rainbow(t_fractol *f);
+int			black(t_fractol *f);
+int			white(t_fractol *f);
 
 // mandelbrot.c
-int			mandelbrot(t_p *p, double cx, double cy);
-void		draw_mandelbrot(t_p *p);
+int			mandelbrot(t_fractol *f, double cx, double cy);
+void		draw_mandelbrot(t_fractol *f);
 
 // julia.c
-void		chose_julia(t_p *p, char *av);
-int			julia(t_p *p, double nx, double ny);
-void		draw_julia(t_p *p);
+void		chose_julia(t_fractol *f, char *av);
+int			julia(t_fractol *f, double nx, double ny);
+void		draw_julia(t_fractol *f);
 
 // burningship
 double		ft_abs(double num);
-int			burningship(t_p *p, double cx, double cy);
-void		draw_burningship(t_p *p);
+int			burningship(t_fractol *f, double cx, double cy);
+void		draw_burningship(t_fractol *f);
 
 #endif

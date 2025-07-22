@@ -3,58 +3,72 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootaketaishi <marvin@42.fr>                +#+  +:+       +#+        */
+/*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/31 01:43:53 by ootaketai         #+#    #+#             */
-/*   Updated: 2022/04/05 06:07:37 by ootaketai        ###   ########.fr       */
+/*   Created: 2025/07/22 12:30:22 by totake            #+#    #+#             */
+/*   Updated: 2025/07/22 15:00:53 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int	ft_strcmp(char *s1, char *s2)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
-		i++;
-	return (s1[i] - s2[i]);
-}
-
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
+void	my_mlx_pixel_put(t_fractol *f, int x, int y, int color)
 {
 	char	*dst;
 
-	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
+		return ;
+	dst = f->addr + (y * f->line_length + x * (f->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
 }
 
-void	pixel_put(t_p *p, double x, double y, int n)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	if (n == -1)
-		my_mlx_pixel_put(&(p->img), x, y, color(p));
-	else
-		my_mlx_pixel_put(&(p->img), x, y, color(p));
+	while (*s1 && *s2 && *s1 == *s2)
+	{
+		s1++;
+		s2++;
+	}
+	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
 
-void	init(t_p *p)
+// mlx_init:
+// mlx_init function will return a void * which holds
+// the location of our current [MLX instance].
+//
+// mlx_new_window:
+// mlx_new_window function, which will return
+// a pointer to the [window] we have just created.
+//
+// mlx_new_image:
+// mlx_new_image function, which whill return
+// a pointer to the buffer. we will have to buffer
+// all of our pixels to a image, which we will
+// then push to the window
+//
+// mlx_get_data_addr:
+// we need to get the memory address for bytes changes.
+// After creating an image, we can call `mlx_get_data_addr`,
+// we pass `bits_per_pixel`, `line_length`, and `endian`
+// by reference.
+void	init_fractol(t_fractol *f)
 {
-	p->mlx = mlx_init();
-	if (!p->mlx)
-		exit(EXIT_FAILURE);
-	p->win = mlx_new_window(p->mlx, WIDTH, HEIGHT, "fractol");
-	if (!p->win)
-		exit(EXIT_FAILURE);
-	p->img.img = mlx_new_image(p->mlx, WIDTH, HEIGHT);
-	if (!p->img.img)
-		exit(EXIT_FAILURE);
-	p->img.addr = mlx_get_data_addr(p->img.img,
-			&p->img.bits_per_pixel, &p->img.line_length, &p->img.endian);
-	p->move_x = 0.0;
-	p->move_y = 0.0;
-	p->max_n = 100;
-	p->zoom = 1.0;
-	p->n = 0;
-	p->c = 0;
+	f->mlx = mlx_init();
+	if (!f->mlx)
+		handle_errors("Failed to mlx_init()");
+	f->win = mlx_new_window(f->mlx, WIDTH, HEIGHT, "Fractol");
+	if (!f->win)
+		handle_errors("Failed to mlx_new_window()");
+	f->img = mlx_new_image(f->mlx, WIDTH, HEIGHT);
+	if (!f->img)
+		handle_errors("Failed to mlx_new_image");
+	f->addr = mlx_get_data_addr(f->img, &f->bits_per_pixel, &f->line_length,
+			&f->endian);
+	f->zoom = 1.0;
+	f->offset_x = -0.5;
+	f->offset_y = 0.0;
+	f->max_iter = MAX_ITER;
+	f->color_shift = 0;
+	f->mouse_x = WIDTH / 2;
+	f->mouse_y = HEIGHT / 2;
 }

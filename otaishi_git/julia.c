@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   julia.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootaketaishi <marvin@42.fr>                +#+  +:+       +#+        */
+/*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 01:56:12 by ootaketai         #+#    #+#             */
-/*   Updated: 2022/03/31 01:56:14 by ootaketai        ###   ########.fr       */
+/*   Updated: 2025/07/22 13:44:00 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void	chose_julia(t_p *p, char *av)
+void	chose_julia(t_fractol  *f, char *av)
 {
 	if (!ft_strcmp(av, "julia1"))
 	{
@@ -34,7 +34,7 @@ void	chose_julia(t_p *p, char *av)
 	}
 }
 
-int	julia(t_p *p, double nx, double ny)
+int	julia(t_fractol  *f, double nx, double ny)
 {
 	double	ox;
 	double	oy;
@@ -53,7 +53,7 @@ int	julia(t_p *p, double nx, double ny)
 	return (-1);
 }
 
-void	draw_julia(t_p *p)
+void	draw_julia(t_fractol  *f)
 {
 	double	nx;
 	double	ny;

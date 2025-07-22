@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootaketaishi <marvin@42.fr>                +#+  +:+       +#+        */
+/*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 01:53:04 by ootaketai         #+#    #+#             */
-/*   Updated: 2022/03/31 01:53:38 by ootaketai        ###   ########.fr       */
+/*   Updated: 2025/07/22 13:44:00 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int	color(t_p *p)
+int	color(t_fractol *f)
 {
 	if (p->c % 3 == 0)
 		return (rainbow(p));
@@ -22,7 +22,7 @@ int	color(t_p *p)
 		return (white(p));
 }
 
-int	rainbow(t_p *p)
+int	rainbow(t_fractol *f)
 {
 	if (p->n % 7 == 0 || p->n == -1)
 		return (0x00FF0000);
@@ -40,14 +40,14 @@ int	rainbow(t_p *p)
 		return (0x00800080);
 }
 
-int	black(t_p *p)
+int	black(t_fractol *f)
 {
 	if (p->n == -1)
 		return (0x00000000);
 	return (p->n % 100 * pow(2, 12) + 0x00000000);
 }
 
-int	white(t_p *p)
+int	white(t_fractol *f)
 {
 	if (JULIA1 <= p->fractol && p->fractol <= JULIA3)
 		return (black(p));

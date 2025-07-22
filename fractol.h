@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/31 02:00:28 by ootaketai         #+#    #+#             */
-/*   Updated: 2025/07/21 20:27:31 by totake           ###   ########.fr       */
+/*   Created: 2025/07/22 15:14:22 by totake            #+#    #+#             */
+/*   Updated: 2025/07/22 17:31:56 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,91 +16,129 @@
 # include <math.h> // pow
 // # include <mlx.h>    //mlx...
 # include "mlx.h"
-# include <stdio.h>  //printf
+# include <stdio.h>  // printf
 # include <stdlib.h> //exit EXIT_SUCCESS..
 # include <unistd.h> //write
 
-# define WIDTH 800  // 8004:3
-# define HEIGHT 600 // 600
-# define C_KEY 8
-# define LEFT_KEY 123
-# define RIGHT_KEY 124
-# define DOWN_KEY 125
-# define UP_KEY 126
-# define ESC_KEY 53
-# define H_KEY 4
-# define J_KEY 38
-# define K_KEY 40
-# define L_KEY 37
-# define MOUSE_UP 4
-# define MOUSE_DOWN 5
+// fractol index
 # define MANDELBROT 1
-# define JULIA1 2
-# define JULIA2 3
-# define JULIA3 4
-# define BURNINGSHIP 5
+# define JULIA 2
+# define BURNINGSHIP 3
+// window setting
+# define WIDTH 800
+# define HEIGHT 600
+// calc max
+# define MAX_ITER 100
 
-typedef struct s_img
-{
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}			t_img;
+# define ESC 65307
+# define LEFT 65361
+# define RIGHT 65363
+# define UP 65362
+# define DOWN 65364
+# define KEY_C 99
+# define KEY_R 114
+# define ZOOM_IN 5
+# define ZOOM_OUT 4
 
-typedef struct s_p
+// # define C_KEY 8
+// # define LEFT_KEY 123
+// # define RIGHT_KEY 124
+// # define DOWN_KEY 125
+// # define UP_KEY 126
+// # define H_KEY 4
+// # define J_KEY 38
+// # define K_KEY 40
+// # define L_KEY 37
+// # define MOUSE_UP 4
+// # define MOUSE_DOWN 5
+
+// typedef struct s_img
+// {
+// 	void		*img;
+// 	char		*addr;
+// 	int			bits_per_pixel;
+// 	int			line_length;
+// 	int			endian;
+// }				t_img;
+
+// typedef struct s_p
+// {
+// 	void		*mlx;
+// 	void		*win;
+// 	double		move_x;
+// 	double		move_y;
+// 	double		cx;
+// 	double		cy;
+// 	int			n;
+// 	int			max_n;
+// 	double		zoom;
+// 	int			fractol;
+// 	int			c;
+// 	t_img		img;
+// }				t_p;
+
+typedef struct s_complex
 {
-	void	*mlx;
-	void	*win;
-	double	move_x;
-	double	move_y;
-	double	cx;
-	double	cy;
-	int		n;
-	int		max_n;
-	double	zoom;
-	int		fractol;
-	int		c;
-	t_img	img;
-}			t_p;
+	double		re;
+	double		im;
+}				t_complex;
+
+typedef struct s_fractol
+{
+	void		*mlx;
+	void		*win;
+	void		*img;
+	char		*addr;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+	double		zoom;
+	double		offset_x;
+	double		offset_y;
+	int			max_iter;
+	int			color_shift;
+	int			fractol_type;
+	t_complex	julia_c;
+	int			mouse_x;
+	int			mouse_y;
+}				t_fractol;
 
 // main
-void		draw_fractol(t_p *p);
-void		chose_fractol(t_p *p, char *av);
-int			check_av(char *av);
-void		error_phrase(void);
+void			draw_fractol(t_fractol *f);
+
+// error.c
+void			free_window(t_fractol *f);
+void			handle_errors(const char *msg);
+
+// double.c
+int				is_double(const char *s);
+double			ft_atod(const char *s);
 
 // utils.c
-int			ft_strcmp(char *s1, char *s2);
-void		my_mlx_pixel_put(t_img *img, int x, int y, int color);
-void		pixel_put(t_p *p, double x, double y, int n);
-void		init(t_p *p);
+int				ft_strcmp(const char *s1, const char *s2);
+void			my_mlx_pixel_put(t_fractol *f, int x, int y, int color);
+void			init_fractol(t_fractol *f);
 
 // hook.c
-int			mouse_hook(int keycode, int x, int y, t_p *p);
-int			key_hook(int keycode, t_p *p);
-int			close_hook(t_p *p);
-void		julia_change(int keycode, t_p *p);
+int				handle_key(int keycode, t_fractol *f);
+int				handle_mouse(int button, int x, int y, t_fractol *f);
+int				handle_close(t_fractol *f);
 
-// coler
-int			color(t_p *p);
-int			rainbow(t_p *p);
-int			black(t_p *p);
-int			white(t_p *p);
+// color.c
+int				get_color(int iter, t_fractol *f);
 
 // mandelbrot.c
-int			mandelbrot(t_p *p, double cx, double cy);
-void		draw_mandelbrot(t_p *p);
+int				mandelbrot(t_fractol *f, double cx, double cy);
+void			draw_mandelbrot(t_fractol *f);
 
 // julia.c
-void		chose_julia(t_p *p, char *av);
-int			julia(t_p *p, double nx, double ny);
-void		draw_julia(t_p *p);
+void			chose_julia(t_fractol *f, char *av);
+int				julia(t_fractol *f, double nx, double ny);
+void			draw_julia(t_fractol *f);
 
 // burningship
-double		ft_abs(double num);
-int			burningship(t_p *p, double cx, double cy);
-void		draw_burningship(t_p *p);
+double			ft_abs(double num);
+int				burningship(t_fractol *f, double cx, double cy);
+void			draw_burningship(t_fractol *f);
 
 #endif

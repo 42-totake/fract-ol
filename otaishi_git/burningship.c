@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   burningship.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootaketaishi <marvin@42.fr>                +#+  +:+       +#+        */
+/*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 01:58:55 by ootaketai         #+#    #+#             */
-/*   Updated: 2022/03/31 01:59:23 by ootaketai        ###   ########.fr       */
+/*   Updated: 2025/07/22 13:43:15 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ double	ft_abs(double num)
 		return (num);
 }
 
-int	burningship(t_p *p, double cx, double cy)
+int	burningship(t_fractol *f, double cx, double cy)
 {
 	double	nx;
 	double	ny;
@@ -46,7 +46,7 @@ int	burningship(t_p *p, double cx, double cy)
 	return (p->n);
 }
 
-void	draw_burningship(t_p *p)
+void	draw_burningship(t_fractol *f)
 {
 	double	cx;
 	double	cy;

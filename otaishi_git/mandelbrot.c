@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   mandelbrot.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ootaketaishi <marvin@42.fr>                +#+  +:+       +#+        */
+/*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 01:54:38 by ootaketai         #+#    #+#             */
-/*   Updated: 2022/03/31 01:54:40 by ootaketai        ###   ########.fr       */
+/*   Updated: 2025/07/22 13:44:00 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int	mandelbrot(t_p *p, double cx, double cy)
+int	mandelbrot(t_fractol *f, double cx, double cy)
 {
 	double	nx;
 	double	ny;
@@ -36,7 +36,7 @@ int	mandelbrot(t_p *p, double cx, double cy)
 	return (p->n);
 }
 
-void	draw_mandelbrot(t_p *p)
+void	draw_mandelbrot(t_fractol *f)
 {
 	double	cx;
 	double	cy;
