@@ -6,15 +6,20 @@
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 16:27:21 by totake            #+#    #+#             */
-/*   Updated: 2025/07/22 17:27:25 by totake           ###   ########.fr       */
+/*   Updated: 2025/07/23 12:17:24 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
+// void	shift_colors(t_fractol *f)
+// {
+// 	f->color_shift = (f->color_shift + 3) % 24;
+// }
+
 void	shift_colors(t_fractol *f)
 {
-	f->color_shift = (f->color_shift + 3) % 24;
+	f->color_shift = (f->color_shift + 3) % 32;
 }
 
 int	handle_key(int keycode, t_fractol *f)
@@ -40,6 +45,7 @@ int	handle_key(int keycode, t_fractol *f)
 		f->offset_x = -0.5;
 		f->offset_y = 0.0;
 		f->color_shift = 0;
+		f->max_iter = MAX_ITER;
 	}
 	draw_fractol(f);
 	return (0);
@@ -75,7 +81,7 @@ int	handle_mouse(int button, int x, int y, t_fractol *f)
 	double	mouse_re;
 	double	mouse_im;
 
-	zoom_factor = 1.5;
+	zoom_factor = 1.1;
 	if (button == ZOOM_IN || button == ZOOM_OUT)
 	{
 		mouse_re = 1.5 * (x - WIDTH / 2) / (WIDTH * 0.5 * f->zoom)
@@ -86,12 +92,15 @@ int	handle_mouse(int button, int x, int y, t_fractol *f)
 			f->offset_x = mouse_re + (f->offset_x - mouse_re) / zoom_factor;
 			f->offset_y = mouse_im + (f->offset_y - mouse_im) / zoom_factor;
 			f->zoom *= zoom_factor;
+			f->max_iter += 1;
 		}
 		else if (button == ZOOM_OUT)
 		{
 			f->offset_x = mouse_re + (f->offset_x - mouse_re) * zoom_factor;
 			f->offset_y = mouse_im + (f->offset_y - mouse_im) * zoom_factor;
 			f->zoom /= zoom_factor;
+			if (f->max_iter > 16)
+				f->max_iter -= 1;
 		}
 		draw_fractol(f);
 	}

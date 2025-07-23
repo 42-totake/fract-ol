@@ -6,7 +6,7 @@
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 17:24:34 by totake            #+#    #+#             */
-/*   Updated: 2025/07/22 17:24:36 by totake           ###   ########.fr       */
+/*   Updated: 2025/07/22 19:34:47 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	draw_fractol(t_fractol *f)
 {
 	if (f->fractol_type == MANDELBROT)
 		draw_mandelbrot(f);
-	// else if (f->fractol_type == JULIA)
-	// 	draw_julia(f);
-	// else if (f->fractol_type == BURNINGSHIP)
-	// 	draw_burningship(f);
+	else if (f->fractol_type == JULIA)
+		draw_julia(f);
+	else if (f->fractol_type == BURNINGSHIP)
+		draw_burning_ship(f);
 }
 
 int	perse_args(int argc, char **argv)

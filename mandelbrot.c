@@ -6,7 +6,7 @@
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 17:28:35 by totake            #+#    #+#             */
-/*   Updated: 2025/07/22 17:45:52 by totake           ###   ########.fr       */
+/*   Updated: 2025/07/22 20:47:57 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	draw_mandelbrot(t_fractol *f)
 	double	cy;
 	int		iter;
 
-	f->max_iter = (int)(100 + 20 * log2(f->zoom));
 	y = 0;
 	while (y < HEIGHT)
 	{

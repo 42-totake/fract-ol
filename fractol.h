@@ -6,14 +6,14 @@
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 15:14:22 by totake            #+#    #+#             */
-/*   Updated: 2025/07/22 17:31:56 by totake           ###   ########.fr       */
+/*   Updated: 2025/07/22 20:27:59 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-# include <math.h> // pow
+# include <math.h> // pow, fabs(), log2()
 // # include <mlx.h>    //mlx...
 # include "mlx.h"
 # include <stdio.h>  // printf
@@ -28,7 +28,7 @@
 # define WIDTH 800
 # define HEIGHT 600
 // calc max
-# define MAX_ITER 100
+# define MAX_ITER 16
 
 # define ESC 65307
 # define LEFT 65361
@@ -128,17 +128,12 @@ int				handle_close(t_fractol *f);
 int				get_color(int iter, t_fractol *f);
 
 // mandelbrot.c
-int				mandelbrot(t_fractol *f, double cx, double cy);
 void			draw_mandelbrot(t_fractol *f);
 
 // julia.c
-void			chose_julia(t_fractol *f, char *av);
-int				julia(t_fractol *f, double nx, double ny);
 void			draw_julia(t_fractol *f);
 
 // burningship
-double			ft_abs(double num);
-int				burningship(t_fractol *f, double cx, double cy);
-void			draw_burningship(t_fractol *f);
+void			draw_burning_ship(t_fractol *f);
 
 #endif
