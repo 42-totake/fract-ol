@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mandelbrot.c                                       :+:      :+:    :+:   */
+/*   mandelbrot_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/22 17:28:35 by totake            #+#    #+#             */
-/*   Updated: 2025/07/23 14:54:09 by totake           ###   ########.fr       */
+/*   Created: 2025/07/23 15:46:55 by totake            #+#    #+#             */
+/*   Updated: 2025/07/23 15:47:04 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include "fractol_bonus.h"
 
 int	mandelbrot(t_fractol *f, double cx, double cy)
 {

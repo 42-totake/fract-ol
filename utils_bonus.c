@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/22 12:30:22 by totake            #+#    #+#             */
-/*   Updated: 2025/07/23 14:13:48 by totake           ###   ########.fr       */
+/*   Created: 2025/07/23 15:46:38 by totake            #+#    #+#             */
+/*   Updated: 2025/07/23 15:46:43 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include "fractol_bonus.h"
 
 void	my_mlx_pixel_put(t_fractol *f, int x, int y, int color)
 {

@@ -1,26 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color.c                                            :+:      :+:    :+:   */
+/*   double1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/22 17:29:58 by totake            #+#    #+#             */
-/*   Updated: 2025/07/23 15:18:07 by totake           ###   ########.fr       */
+/*   Created: 2025/07/22 12:13:41 by totake            #+#    #+#             */
+/*   Updated: 2025/07/23 15:18:22 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int	get_color(int iter, t_fractol *f)
+int	ft_isdigit(int c)
 {
-	int	color;
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
+}
 
-	if (iter == f->max_iter)
-		return (0x00000000);
-	color = (int)(0x00FFFFFF * ((double)iter / f->max_iter));
-	color = color & 0x00FFFFFF;
-	color = ((color >> f->color_shift) | (color << (32
-					- f->color_shift))) & 0x00FFFFFF;
-	return (color);
+int	is_double(const char *s)
+{
+	int	has_dot;
+
+	has_dot = 0;
+	if (*s == '-' || *s == '+')
+		s++;
+	if (!*s)
+		return (0);
+	while (*s)
+	{
+		if (*s == '.')
+		{
+			if (has_dot)
+				return (0);
+			has_dot = 1;
+		}
+		else if (!ft_isdigit(*s))
+			return (0);
+		s++;
+	}
+	return (1);
 }

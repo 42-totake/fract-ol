@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   double.c                                           :+:      :+:    :+:   */
+/*   double1_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/22 12:13:41 by totake            #+#    #+#             */
-/*   Updated: 2025/07/22 12:14:37 by totake           ###   ########.fr       */
+/*   Created: 2025/07/23 15:43:52 by totake            #+#    #+#             */
+/*   Updated: 2025/07/23 15:43:58 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include "fractol_bonus.h"
 
 int	ft_isdigit(int c)
 {
@@ -41,35 +41,4 @@ int	is_double(const char *s)
 		s++;
 	}
 	return (1);
-}
-
-double	ft_atod(const char *s)
-{
-	double result;
-	double sign;
-	double fraction;
-	double divisor;
-
-	result = 0.0;
-	sign = 1.0;
-	fraction = 0.0;
-	divisor = 10.0;
-	if (*s == '-' || *s == '+')
-	{
-		if (*s == '-')
-			sign = -1.0;
-		s++;
-	}
-	while (*s && ft_isdigit(*s))
-		result = result * 10 + (*s++ - '0');
-	if (*s == '.')
-	{
-		s++;
-		while (*s && ft_isdigit(*s))
-		{
-			fraction += (*s++ - '0') / divisor;
-			divisor *= 10.0;
-		}
-	}
-	return (sign * (result + fraction));
 }

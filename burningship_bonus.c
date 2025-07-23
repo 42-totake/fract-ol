@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mandelbrot.c                                       :+:      :+:    :+:   */
+/*   burningship_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/22 17:28:35 by totake            #+#    #+#             */
-/*   Updated: 2025/07/23 14:54:09 by totake           ###   ########.fr       */
+/*   Created: 2025/07/23 15:43:34 by totake            #+#    #+#             */
+/*   Updated: 2025/07/23 15:43:42 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include "fractol_bonus.h"
 
-int	mandelbrot(t_fractol *f, double cx, double cy)
+int	burning_ship(t_fractol *f, double cx, double cy)
 {
 	double	x;
 	double	y;
@@ -25,14 +25,14 @@ int	mandelbrot(t_fractol *f, double cx, double cy)
 	while (x * x + y * y <= 4.0 && i < f->max_iter)
 	{
 		xtemp = x * x - y * y + cx;
-		y = 2.0 * x * y + cy;
-		x = xtemp;
+		y = fabs(2.0 * x * y) + cy;
+		x = fabs(xtemp);
 		i++;
 	}
 	return (i);
 }
 
-void	draw_mandelbrot(t_fractol *f)
+void	draw_burning_ship(t_fractol *f)
 {
 	int		x;
 	int		y;
@@ -48,7 +48,7 @@ void	draw_mandelbrot(t_fractol *f)
 		{
 			cx = 1.5 * (x - WIDTH / 2) / (WIDTH * 0.5 * f->zoom) + f->offset_x;
 			cy = (y - HEIGHT / 2) / (HEIGHT * 0.5 * f->zoom) + f->offset_y;
-			iter = mandelbrot(f, cx, cy);
+			iter = burning_ship(f, cx, cy);
 			my_mlx_pixel_put(f, x, y, get_color(iter, f));
 			x++;
 		}
