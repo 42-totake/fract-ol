@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol.h                                          :+:      :+:    :+:   */
+/*   fractol_bonus.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: totake <totake@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/22 15:14:22 by totake            #+#    #+#             */
-/*   Updated: 2025/07/23 15:33:10 by totake           ###   ########.fr       */
+/*   Created: 2025/07/23 16:47:14 by totake            #+#    #+#             */
+/*   Updated: 2025/07/23 16:47:27 by totake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FRACTOL_H
-# define FRACTOL_H
+#ifndef FRACTOL_BONUS_H
+# define FRACTOL_BONUS_H
 
 # include "float.h" //DBL_MAX,DBL_MIN,DBL_DIG
 # include "mlx.h"
